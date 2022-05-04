@@ -16,10 +16,8 @@ public class Correntista {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
-	@Column(length = 11)
 	private String cpf;
 	
-	@Column(length = 60)
 	private String nome;
 	
 	@Embedded
