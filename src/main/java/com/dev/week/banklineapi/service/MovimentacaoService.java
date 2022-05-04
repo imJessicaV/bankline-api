@@ -6,8 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.dev.week.banklineapi.dto.NovaMovimentacao;
+import com.dev.week.banklineapi.model.Correntista;
 import com.dev.week.banklineapi.model.Movimentacao;
 import com.dev.week.banklineapi.model.MovimentacaoTipo;
+import com.dev.week.banklineapi.repository.CorrentistaRepository;
 import com.dev.week.banklineapi.repository.MovimentacaoRepository;
 
 @Service
@@ -15,6 +17,9 @@ public class MovimentacaoService {
 	
 	@Autowired
 	private MovimentacaoRepository repository;
+	
+	@Autowired
+	private CorrentistaRepository correntistaRepository;
 	public void save(NovaMovimentacao novaMovimentacao) {
 		Movimentacao movimentacao = new Movimentacao();
 		
@@ -28,6 +33,12 @@ public class MovimentacaoService {
 		movimentacao.setTipo(novaMovimentacao.getTipo());
 		movimentacao.setValor(valor);
 		
-		repository.save(movimentacao);
+		Correntista correntista = correntistaRepository.findById(novaMovimentacao.getIdConta()).orElse(null);
+		if(correntista != null) {
+			correntista.getConta().setSaldo(correntista.getConta().getSaldo() + valor);
+			correntistaRepository.save(correntista);
+			
+		}
+		repository.save(movimentacao);	
 	}
 }

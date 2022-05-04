@@ -9,12 +9,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.dev.week.banklineapi.dto.NovaMovimentacao;
 import com.dev.week.banklineapi.dto.NovoCorrentista;
 import com.dev.week.banklineapi.model.Correntista;
 import com.dev.week.banklineapi.model.Movimentacao;
 import com.dev.week.banklineapi.repository.CorrentistaRepository;
 import com.dev.week.banklineapi.repository.MovimentacaoRepository;
 import com.dev.week.banklineapi.service.CorrentistaService;
+import com.dev.week.banklineapi.service.MovimentacaoService;
 
 @RestController
 @RequestMapping("/movimentacoes")
@@ -23,7 +25,7 @@ public class MovimentacaoController {
 	private MovimentacaoRepository repository;
 	
 	@Autowired
-	private CorrentistaService service;
+	private MovimentacaoService service;
 	
 	@GetMapping
 	public List<Movimentacao> findAll(){
@@ -31,8 +33,8 @@ public class MovimentacaoController {
 	}
 	
 	@PostMapping
-	public void save(@RequestBody NovoCorrentista correntista) {
-		service.save(correntista);
+	public void save(@RequestBody NovaMovimentacao movimentacao) {
+		service.save(movimentacao);
 		
-	}
+	} 
 }
